@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Ruta {
 
 	// ATRIBUTOS
-	Aeropuerto origen;
-	Aeropuerto destino;
-	ArrayList<Aerolinea> aerolineas;
-	double distancia;
-	boolean internacional;
+	private Aeropuerto origen;
+	private Aeropuerto destino;
+	private ArrayList<Aerolinea> aerolineas;
+	private double distancia;
+	private boolean internacional;
 
 	public Ruta(Aeropuerto origen, Aeropuerto destino, double distancia,
 			boolean internacional) {

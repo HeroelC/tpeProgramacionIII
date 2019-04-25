@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Aeropuerto {
 
     //ATRIBUTOS
-    ArrayList<Ruta> rutas;
-    String ciudad;
-    String pais;
-    String nombre;
+    private ArrayList<Ruta> rutas;
+    private String ciudad;
+    private String pais;
+    private String nombre;
 
     public Aeropuerto(String nombre, String ciudad, String pais){
 
@@ -17,7 +17,10 @@ public class Aeropuerto {
         this.pais = pais;
         this.rutas = new ArrayList<Ruta>();
     }
-
+    public ArrayList<Ruta> getRutas(){
+    	ArrayList<Ruta> aux = new ArrayList<Ruta>(rutas);
+    	return aux;
+    }
     public String getCiudad(){
         return ciudad;
     }

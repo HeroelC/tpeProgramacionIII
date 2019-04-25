@@ -3,9 +3,9 @@ package sistema;
 public class Aerolinea {
 
     //ATRIBUTOS
-    String nombre;
-    int capacidad;
-    int reservas;
+    private String nombre;
+    private int capacidad;
+    private int reservas;
 
     public Aerolinea(String nombre, int capacidad){
         this.nombre = nombre;

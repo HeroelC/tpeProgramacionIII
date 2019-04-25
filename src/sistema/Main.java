@@ -13,26 +13,23 @@ import java.util.ArrayList;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		Sistema sistemaAereo = new Sistema();
-		
+
 		leerArchivos(sistemaAereo);
-		
+
 		menu(sistemaAereo);
 	}
 
 	public static void menu(Sistema sistemaAereo) {
 
-		
 		mensajeBienvenida();
-		
+
 		listaOpcionesDeMenu();
-		
+
 		int opcion = pedirNumero();
 
-		
-		switch(opcion) {
+		switch (opcion) {
 		case 0:
 			System.out.println("Gracias por utilizar el sistema de información a viajeros frecuentes");
 			break;
@@ -40,11 +37,7 @@ public class Main {
 			listarAeropuertos(sistemaAereo);
 			break;
 		case 2:
-			ArrayList<Ruta> listaRuta = sistemaAereo.listarRutas();
-			
-			for(int i = 0 ; i < listaRuta.size(); i++) {
-				System.out.println((i+1) + "." + listaRuta.get(i).toString());
-			}
+			System.out.println("No podemos resolver su consulta en este momento, intente nuevamente mas tarde");
 			break;
 		case 3:
 			listarAeropuertos(sistemaAereo);
@@ -52,17 +45,19 @@ public class Main {
 			int origen = pedirNumero();
 			System.out.println("Ingrese aerolinea destino");
 			int destino = pedirNumero();
-			System.out.println(sistemaAereo.buscarVueloDirecto(origen, destino));
+			Ruta vuelo = sistemaAereo.buscarVueloDirecto(origen, destino);
+			System.out.println(vuelo.toString());
 			break;
-		default: 
+		default:
 			System.out.println("La opción ingresada es incorrecta");
 		}
 	}
-	
+
 	public static void leerArchivos(Sistema sistemaAereo) {
 
-		String csvAeropuertos = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
-		String csvRutas = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
+		//CAMBIAR RUTAS SEGUN LA PC
+		String csvAeropuertos = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
+		String csvRutas = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
 		String csvReservas = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Reservas.csv";
 		String line = "";
 		String cvsSplitBy = ";";
@@ -83,18 +78,19 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] rutas = line.split(cvsSplitBy);
-				
+
 				if (rutas[3].equals("1")) {
 					rutas[3] = "false";
-				}
-				else {
+				} else {
 					rutas[3] = "true";
 				}
-				
-				sistemaAereo.ge
-				
-				Ruta ruta = new Ruta(rutas[0], rutas[1], Double.parseDouble(rutas[2]), Boolean.parseBoolean(rutas[3]));
-				sistemaAereo.addRuta();
+
+				//busco los aeropuertos por el nombre
+				Aeropuerto origen = sistemaAereo.devolverAeropuerto(rutas[0]);
+				Aeropuerto destino = sistemaAereo.devolverAeropuerto(rutas[1]);
+				//le paso por parametro a la instancia de ruta los aeropuertos encontrados
+				Ruta ruta = new Ruta(origen, destino, Double.parseDouble(rutas[2]), Boolean.parseBoolean(rutas[3]));
+				sistemaAereo.addRuta(ruta);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -144,36 +140,37 @@ public class Main {
 			}
 		}
 	}
-	
+
 	public static void mensajeBienvenida() {
-		System.out.println("Bienvenido al Sistema Centralizado de Información"
-				+ " a Viajeros Frecuentes");
+		System.out.println("Bienvenido al Sistema Centralizado de Información" + " a Viajeros Frecuentes");
 		System.out.println("¿Qué operación desea realizar?");
 	}
-	
+
 	public static void listaOpcionesDeMenu() {
 		System.out.println("1. Listar todos los aeropuertos");
-		System.out.println("2. Listar todas las rutas"); //cambiar a reservas realizadas
+		System.out.println("2. Listar todas las reservas"); // cambiar a reservas realizadas
 		System.out.println("3. Servicio 1: Verificar vuelos directos");
 		System.out.println("4. Servicio 2: Obtener vuelos sin aerolinea");
 		System.out.println("5. Servicio 3: Vuelos disponibles");
 		System.out.println("0. Salir del sistema");
 	}
+
 	public static int pedirNumero() {
 		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 		int opcion;
-		try {	
-			opcion = new Integer(entrada.readLine());	
-		}catch(Exception e) {
+		try {
+			opcion = new Integer(entrada.readLine());
+		} catch (Exception e) {
 			opcion = 0;
 		}
 		return opcion;
 	}
+
 	public static void listarAeropuertos(Sistema sistemaAereo) {
 		ArrayList<Aeropuerto> listaAeropuertos = sistemaAereo.listarAeropuertos();
-		
-		for(int i = 0; i < listaAeropuertos.size(); i++) {
-			System.out.println((i+1) + "." + listaAeropuertos.get(i).toString());
+
+		for (int i = 0; i < listaAeropuertos.size(); i++) {
+			System.out.println((i + 1) + "." + listaAeropuertos.get(i).toString());
 		}
 	}
 }
