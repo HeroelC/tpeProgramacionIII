@@ -58,11 +58,12 @@ public class Sistema {
     			return aeropuertos.get(i);
     		}
     	}
-    	return null; //si no lo encuentro devuelvo null, no se si esto est� bien
+    	return null; //si no lo encuentro devuelvo null, no se si esto est� bien
     }
-    //Añadir aeropuertos al sistema 
-    public void addAeropuerto(String nombre, String ciudad, String pais) {
-    	aeropuertos.add(new Aeropuerto(nombre, ciudad, pais));
+    /*Añadir aeropuertos al sistema, se cambio a que reciba solamente el aeropuerto y no todo
+    los parametros*/
+    public void addAeropuerto(Aeropuerto aeropuerto) {
+    	aeropuertos.add(aeropuerto);
     }
     
     //¿Se deben devolver en un ArrayList? ¿Hay algun inconveniente?

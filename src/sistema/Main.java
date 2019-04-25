@@ -67,8 +67,8 @@ public class Main {
 	public static void leerArchivos(Sistema sistemaAereo) {
 
 		//CAMBIAR RUTAS SEGUN LA PC
-		String csvAeropuertos = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
-		String csvRutas = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
+		String csvAeropuertos = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
+		String csvRutas = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
 		String csvReservas = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Reservas.csv";
 		String line = "";
 		String cvsSplitBy = ";";
@@ -78,8 +78,10 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] aeropuertos = line.split(cvsSplitBy);
-
-				sistemaAereo.addAeropuerto(aeropuertos[0], aeropuertos[1], aeropuertos[2]);
+				
+				//Cambio de recibir todo los parametros a solo recibir el aeropuerto construido
+				Aeropuerto aeropuerto = new Aeropuerto(aeropuertos[0], aeropuertos[1], aeropuertos[2]);
+				sistemaAereo.addAeropuerto(aeropuerto);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -96,7 +98,8 @@ public class Main {
 					rutas[3] = "true";
 				}
 
-				//busco los aeropuertos por el nombre
+				/*busco los aeropuertos por el nombre, podria ser
+				busarAeropuertoPorNombre(mas representativo)*/
 				Aeropuerto origen = sistemaAereo.devolverAeropuerto(rutas[0]);
 				Aeropuerto destino = sistemaAereo.devolverAeropuerto(rutas[1]);
 				//le paso por parametro a la instancia de ruta los aeropuertos encontrados
