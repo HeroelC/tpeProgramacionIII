@@ -46,7 +46,18 @@ public class Main {
 			System.out.println("Ingrese aerolinea destino");
 			int destino = pedirNumero();
 			Ruta vuelo = sistemaAereo.buscarVueloDirecto(origen, destino);
-			System.out.println(vuelo.toString());
+			if (vuelo != null) {
+				System.out.println(vuelo.toString());
+			}
+			else {
+				System.out.println("No se ha encontrado un vuelto directo entre los aeropuertos especificados");
+			}
+			break;
+		case 4:
+			System.out.println("No podemos resolver su consulta en este momento, intente nuevamente mas tarde");
+			break;
+		case 5:
+			System.out.println("No podemos resolver su consulta en este momento, intente nuevamente mas tarde");
 			break;
 		default:
 			System.out.println("La opción ingresada es incorrecta");

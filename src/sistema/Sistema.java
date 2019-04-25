@@ -25,10 +25,8 @@ public class Sistema {
         int posicionDestino = buscarAeropuerto(destino);
         
         //creamos la ruta invertida
-        Ruta rutaInvertida = ruta;
-        
-        rutaInvertida.setOrigen(ruta.getDestino());
-        rutaInvertida.setDestino(ruta.getOrigen());
+        Ruta rutaInvertida = new Ruta(ruta.getDestino(), ruta.getOrigen(), ruta.getDistancia(), ruta.esInternacional());
+        //guardamos los aeropuertos para no pisarlos
         
         //Agregamos las rutas al sistema y a su vez los aeropuertos crean sus rutas
         aeropuertos.get(posicionOrigen).addRuta(ruta);
