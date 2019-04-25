@@ -92,6 +92,17 @@ public class Main {
 
 				String[] rutas = line.split(cvsSplitBy);
 
+				ArrayList<Aerolinea> aux = new ArrayList<>();
+				
+				//Esto separa las aerolineas que vienen individualmente
+				String[] aerolineas = rutas[4].split(",");
+
+				for(int i=0; i < aerolineas.length; i++) {
+					aerolineas[i] = aerolineas[i].replaceAll("\\}", "");
+					aerolineas[i] = aerolineas[i].replaceAll("\\{", "");
+					aux.add((new Aerolinea(aerolineas[i])));
+				}
+				
 				if (rutas[3].equals("1")) {
 					rutas[3] = "false";
 				} else {
@@ -104,6 +115,9 @@ public class Main {
 				Aeropuerto destino = sistemaAereo.devolverAeropuerto(rutas[1]);
 				//le paso por parametro a la instancia de ruta los aeropuertos encontrados
 				Ruta ruta = new Ruta(origen, destino, Double.parseDouble(rutas[2]), Boolean.parseBoolean(rutas[3]));
+				
+				ruta.addAerolineas(aux);
+				
 				sistemaAereo.addRuta(ruta);
 			}
 		} catch (IOException e) {

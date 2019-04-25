@@ -7,9 +7,8 @@ public class Aerolinea {
     private int capacidad;
     private int reservas;
 
-    public Aerolinea(String nombre, int capacidad){
+    public Aerolinea(String nombre){
         this.nombre = nombre;
-        this.capacidad = capacidad;
     }
 
     public String getNombre(){

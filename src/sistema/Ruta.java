@@ -57,6 +57,11 @@ public class Ruta {
 		ArrayList<Aerolinea> aux = new ArrayList<Aerolinea>(aerolineas);
 		return aux;
 	}
+	//Agregado el add aerolineas para las rutas
+	public void addAerolineas(ArrayList<Aerolinea> aerolineas) {
+		this.aerolineas = aerolineas;
+	}
+	
 	public String toString() {
 		return "De: " + origen.getNombre() + " A: " + destino.getNombre() + " Son: " + distancia + "km. "
 				+ "Es internacional: " + internacional;
