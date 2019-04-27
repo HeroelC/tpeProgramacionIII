@@ -37,7 +37,10 @@ public class Main {
 			listarAeropuertos(sistemaAereo);
 			break;
 		case 2:
-			System.out.println("No podemos resolver su consulta en este momento, intente nuevamente mas tarde");
+			ArrayList<Ruta> rutas = new ArrayList<Ruta>(sistemaAereo.getRutas());
+			for (int i = 0 ; i < rutas.size(); i++) {
+				System.out.println(rutas.get(i).toString());
+			}
 			break;
 		case 3:
 			listarAeropuertos(sistemaAereo);
@@ -67,9 +70,9 @@ public class Main {
 	public static void leerArchivos(Sistema sistemaAereo) {
 
 		//CAMBIAR RUTAS SEGUN LA PC
-		String csvAeropuertos = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
-		String csvRutas = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
-		String csvReservas = "C:/Users/Airways/eclipse-workspace/tpeProgramacionIII/src/sistema/dataset/Reservas.csv";
+		String csvAeropuertos = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
+		String csvRutas = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
+		String csvReservas = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Reservas.csv";
 		String line = "";
 		String cvsSplitBy = ";";
 
@@ -96,8 +99,8 @@ public class Main {
 				
 				//Esto separa las aerolineas que vienen individualmente
 				String[] aerolineas = rutas[4].split(",");
-
 				for(int i=0; i < aerolineas.length; i++) {
+					//cambiar esto para splitear por guion
 					aerolineas[i] = aerolineas[i].replaceAll("\\}", "");
 					aerolineas[i] = aerolineas[i].replaceAll("\\{", "");
 					aux.add((new Aerolinea(aerolineas[i])));
@@ -123,17 +126,17 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		try (BufferedReader br = new BufferedReader(new FileReader(csvReservas))) {
-//
-//			while ((line = br.readLine()) != null) {
-//
-//				String[] reservas = line.split(cvsSplitBy);
-//
-//				sistemaAereo.addAeropuerto(aeropuertos[0], aeropuertos[1], aeropuertos[2]);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try (BufferedReader br = new BufferedReader(new FileReader(csvReservas))) {
+
+			while ((line = br.readLine()) != null) {
+
+				String[] reservas = line.split(cvsSplitBy);
+
+				sistemaAereo.addReserva(reservas[0], reservas[1], reservas[2], Integer.parseInt(reservas[3]));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void escribirArchivos() {

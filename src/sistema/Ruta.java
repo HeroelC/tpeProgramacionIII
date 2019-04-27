@@ -29,7 +29,13 @@ public class Ruta {
 	public void setOrigen(Aeropuerto origen) {
 		this.origen = origen;
 	}
-
+	public String reservasTotales(){
+		String reserva = "";
+		for ( int i = 0 ; i < aerolineas.size(); i ++) {
+			reserva += aerolineas.get(i).toString() + "/";
+		}
+		return reserva;
+	}
 	// Lo mismo que el caso del getOrigen()
 	public Aeropuerto getDestino() {
 		return destino;
@@ -64,6 +70,6 @@ public class Ruta {
 	
 	public String toString() {
 		return "De: " + origen.getNombre() + " A: " + destino.getNombre() + " Son: " + distancia + "km. "
-				+ "Es internacional: " + internacional;
+				+ "Es internacional: " + internacional + " " + reservasTotales();
 	}
 }

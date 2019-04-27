@@ -36,7 +36,7 @@ public class Aerolinea {
     }
     
     public String toString() {
-    	return nombre + "Capacidad: " + capacidad + " Reservas: " + reservas +
+    	return nombre + " Reservas: " + reservas +
     			" Disponibles: " + getDisponibles();
     }
     
