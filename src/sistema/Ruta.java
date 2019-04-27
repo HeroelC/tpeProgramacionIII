@@ -29,6 +29,7 @@ public class Ruta {
 	public void setOrigen(Aeropuerto origen) {
 		this.origen = origen;
 	}
+	//devuelvo los ToString concatenado de las aerolineas 
 	public String reservasTotales(){
 		String reserva = "";
 		for ( int i = 0 ; i < aerolineas.size(); i ++) {

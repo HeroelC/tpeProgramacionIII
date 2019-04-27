@@ -37,6 +37,7 @@ public class Main {
 			listarAeropuertos(sistemaAereo);
 			break;
 		case 2:
+			//pido todas las rutas y las imprimo mostrando las reservas de cada aerolinea dentro de cada ruta
 			ArrayList<Ruta> rutas = new ArrayList<Ruta>(sistemaAereo.getRutas());
 			for (int i = 0 ; i < rutas.size(); i++) {
 				System.out.println(rutas.get(i).toString());
@@ -105,7 +106,6 @@ public class Main {
 					aerolineas[i] = aerolineas[i].replaceAll("\\{", "");
 					aux.add((new Aerolinea(aerolineas[i])));
 				}
-				
 				if (rutas[3].equals("1")) {
 					rutas[3] = "false";
 				} else {

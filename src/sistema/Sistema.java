@@ -99,6 +99,8 @@ public class Sistema {
 		// en caso de no encontrar, retorno null, no se si esto esta bien
 		return null;
 	}
+	//devuevlvo todas las rutas iterando los aerpouertos. 
+	//Esta funcion es para poder listar todas las reservas
 	public ArrayList<Ruta> getRutas(){
 		ArrayList<Ruta> aux = new ArrayList<Ruta>();
 		for (int i = 0; i < aeropuertos.size(); i++) {
