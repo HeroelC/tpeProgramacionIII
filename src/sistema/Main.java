@@ -95,6 +95,7 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] rutas = line.split(cvsSplitBy);
+				
 
 				ArrayList<Aerolinea> aux = new ArrayList<>();
 				
@@ -104,7 +105,8 @@ public class Main {
 					//cambiar esto para splitear por guion
 					aerolineas[i] = aerolineas[i].replaceAll("\\}", "");
 					aerolineas[i] = aerolineas[i].replaceAll("\\{", "");
-					aux.add((new Aerolinea(aerolineas[i])));
+					String[] aeroNombreCant = aerolineas[i].split("-");
+					aux.add(new Aerolinea(aeroNombreCant[0], Integer.parseInt(aeroNombreCant[1])));
 				}
 				if (rutas[3].equals("1")) {
 					rutas[3] = "false";

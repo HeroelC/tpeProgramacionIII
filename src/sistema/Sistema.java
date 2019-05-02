@@ -99,32 +99,44 @@ public class Sistema {
 		// en caso de no encontrar, retorno null, no se si esto esta bien
 		return null;
 	}
-	//devuevlvo todas las rutas iterando los aerpouertos. 
-	//Esta funcion es para poder listar todas las reservas
-	public ArrayList<Ruta> getRutas(){
+
+	// devuevlvo todas las rutas iterando los aerpouertos.
+	// Esta funcion es para poder listar todas las reservas
+	public ArrayList<Ruta> getRutas() {
 		ArrayList<Ruta> aux = new ArrayList<Ruta>();
 		for (int i = 0; i < aeropuertos.size(); i++) {
 			aux.addAll(aeropuertos.get(i).getRutas());
 		}
 		return aux;
 	}
+
 	public void addReserva(String origen, String destino, String aerolinea, int reservas) {
 		Aeropuerto Aorigen = devolverAeropuerto(origen);
 		Aeropuerto Adestino = devolverAeropuerto(destino);
-		for (int i = 0; i < aeropuertos.size(); i++) {
-			if (aeropuertos.get(i).equals(Aorigen)) {
-				for (int j = 0; j < aeropuertos.get(i).getRutas().size(); j++) {
-					if (aeropuertos.get(i).getRutas().get(j).getDestino().equals(Adestino)) {
-						for (int k = 0; k < aeropuertos.get(i).getRutas().get(j).getAerolineas().size(); k++) {
-							if (aeropuertos.get(i).getRutas().get(j).getAerolineas().get(k).getNombre()
-									.equals(aerolinea)) {
-								aeropuertos.get(i).getRutas().get(j).getAerolineas().get(k).setReservas(reservas);
-							}
-						}
+//		for (int i = 0; i < aeropuertos.size(); i++) {
+//			if (aeropuertos.get(i).equals(Aorigen)) {
+//				for (int j = 0; j < aeropuertos.get(i).getRutas().size(); j++) {
+//					if (aeropuertos.get(i).getRutas().get(j).getDestino().equals(Adestino)) {
+//						for (int k = 0; k < aeropuertos.get(i).getRutas().get(j).getAerolineas().size(); k++) {
+//							if (aeropuertos.get(i).getRutas().get(j).getAerolineas().get(k).getNombre()
+//									.equals(aerolinea)) {
+//								aeropuertos.get(i).getRutas().get(j).getAerolineas().get(k).setReservas(reservas);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+		//optimizacion del metodo
+		ArrayList<Ruta> aux = new ArrayList<Ruta>(getRutas());
+		for (int i = 0 ; i < aux.size(); i++) {
+			if ((aux.get(i).getOrigen().equals(Aorigen) && (aux.get(i).getDestino().equals(Adestino)))) {
+				for (int j = 0 ; j < aux.get(i).getAerolineas().size(); j++) {
+					if (aux.get(i).getAerolineas().get(j).getNombre().equals(aerolinea)) {
+						aux.get(i).getAerolineas().get(j).setReservas(reservas);
 					}
 				}
 			}
 		}
-
 	}
 }
