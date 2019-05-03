@@ -11,8 +11,7 @@ public class Ruta {
 	private double distancia;
 	private boolean internacional;
 
-	public Ruta(Aeropuerto origen, Aeropuerto destino, double distancia,
-			boolean internacional) {
+	public Ruta(Aeropuerto origen, Aeropuerto destino, double distancia, boolean internacional) {
 
 		this.origen = origen;
 		this.destino = destino;
@@ -29,14 +28,16 @@ public class Ruta {
 	public void setOrigen(Aeropuerto origen) {
 		this.origen = origen;
 	}
-	//devuelvo los ToString concatenado de las aerolineas 
-	public String reservasTotales(){
+
+	// devuelvo los ToString concatenado de las aerolineas
+	public String reservasTotales() {
 		String reserva = "";
-		for ( int i = 0 ; i < aerolineas.size(); i ++) {
+		for (int i = 0; i < aerolineas.size(); i++) {
 			reserva += aerolineas.get(i).toString();
 		}
 		return reserva;
 	}
+
 	// Lo mismo que el caso del getOrigen()
 	public Aeropuerto getDestino() {
 		return destino;
@@ -53,6 +54,7 @@ public class Ruta {
 	public void setDistancia(double distancia) {
 		this.distancia = distancia;
 	}
+
 	public boolean esInternacional() {
 		return internacional;
 	}
@@ -60,17 +62,19 @@ public class Ruta {
 	public void setInternacional(boolean internacional) {
 		this.internacional = internacional;
 	}
-	public ArrayList<Aerolinea> getAerolineas(){
+
+	public ArrayList<Aerolinea> getAerolineas() {
 		ArrayList<Aerolinea> aux = new ArrayList<Aerolinea>(aerolineas);
 		return aux;
 	}
-	//Agregado el add aerolineas para las rutas
+
+	// Agregado el add aerolineas para las rutas
 	public void addAerolineas(ArrayList<Aerolinea> aerolineas) {
 		this.aerolineas = aerolineas;
 	}
-	
+
 	public String toString() {
-		return "De: " + origen.getNombre() + " A: " + destino.getNombre() + " Son: " + distancia + "km. "
-				+ "Es internacional: " + internacional + " " + reservasTotales();
+		return "De: " + origen.getNombre() + " - A: " + destino.getNombre() + " - Son: " + distancia
+				+ "km. - " + "Es internacional: " + internacional + reservasTotales();
 	}
 }

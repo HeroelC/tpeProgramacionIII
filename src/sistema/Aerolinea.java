@@ -38,7 +38,7 @@ public class Aerolinea {
 
 	@Override
 	public String toString() {
-		return "\n" + nombre + ", capacidad=" + capacidad + ", reservas=" + reservas;
+		return "\n" + nombre + ", capacidad: " + capacidad + ", reservas: " + reservas;
 	}
 
 	@Override

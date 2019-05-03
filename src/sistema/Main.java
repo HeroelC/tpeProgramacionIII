@@ -42,6 +42,7 @@ public class Main {
 			for (int i = 0 ; i < rutas.size(); i++) {
 				System.out.println(rutas.get(i).toString());
 			}
+			escribirArchivos(rutas);
 			break;
 		case 3:
 			listarAeropuertos(sistemaAereo);
@@ -141,26 +142,32 @@ public class Main {
 		}
 	}
 
-	public static void escribirArchivos() {
+	public static void escribirArchivos(ArrayList<Ruta> rutas) {
 		BufferedWriter bw = null;
 		try {
-			File file = new File("[PATH-AL-ARCHIVO]/salida.csv");
+			File file = new File("src/sistema/dataget/salida.csv");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
 
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
-
+			
+			for ( int i = 0; i < rutas.size(); i++) {	
+				String contenidoLinea1 = rutas.get(i).toString();
+				contenidoLinea1 = contenidoLinea1.replaceAll("-", "\\;");
+				bw.write(contenidoLinea1);
+				bw.newLine();
+			}
 			// Escribo la primer linea del archivo
-			String contenidoLinea1 = "Usuario1;Tiempo1";
-			bw.write(contenidoLinea1);
-			bw.newLine();
+//			String contenidoLinea1 = "Usuario1;Tiempo1";
+//			bw.write(contenidoLinea1);
+//			bw.newLine();
 
 			// Escribo la segunda linea del archivo
-			String contenidoLinea2 = "Usuario2;Tiempo2";
-			bw.write(contenidoLinea2);
-			bw.newLine();
+//			String contenidoLinea2 = "Usuario2;Tiempo2";
+//			bw.write(contenidoLinea2);
+//			bw.newLine();
 
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
