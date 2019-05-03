@@ -38,11 +38,13 @@ public class Main {
 			break;
 		case 2:
 			//pido todas las rutas y las imprimo mostrando las reservas de cada aerolinea dentro de cada ruta
-			ArrayList<Ruta> rutas = new ArrayList<Ruta>(sistemaAereo.getRutas());
-			for (int i = 0 ; i < rutas.size(); i++) {
-				System.out.println(rutas.get(i).toString());
+			ArrayList<Reserva> reservas = sistemaAereo.getReservas();
+			for ( int i = 0 ; i < reservas.size(); i++) {
+				System.out.println(reservas.get(i).toString());
 			}
-			escribirArchivos(rutas);
+			
+//			fixear
+//			escribirArchivos(reservas);
 			break;
 		case 3:
 			listarAeropuertos(sistemaAereo);
@@ -134,8 +136,8 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] reservas = line.split(cvsSplitBy);
-
-				sistemaAereo.addReserva(reservas[0], reservas[1], reservas[2], Integer.parseInt(reservas[3]));
+				Reserva reserva = new Reserva(reservas[0], reservas[1], reservas[2], Integer.parseInt(reservas[3]));
+				sistemaAereo.addReserva(reserva);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

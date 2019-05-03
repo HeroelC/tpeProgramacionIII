@@ -6,9 +6,11 @@ public class Sistema {
 
 	// ATRIBUTOS
 	private ArrayList<Aeropuerto> aeropuertos;
+	private ArrayList<Reserva> reservas;
 
 	public Sistema() {
 		aeropuertos = new ArrayList<Aeropuerto>();
+		reservas = new ArrayList<Reserva>();
 	}
 
 	/*
@@ -109,31 +111,19 @@ public class Sistema {
 		}
 		return aux;
 	}
-
-	public void addReserva(String origen, String destino, String aerolinea, int reservas) {
-		Aeropuerto Aorigen = devolverAeropuerto(origen);
-		Aeropuerto Adestino = devolverAeropuerto(destino);
-//		for (int i = 0; i < aeropuertos.size(); i++) {
-//			if (aeropuertos.get(i).equals(Aorigen)) {
-//				for (int j = 0; j < aeropuertos.get(i).getRutas().size(); j++) {
-//					if (aeropuertos.get(i).getRutas().get(j).getDestino().equals(Adestino)) {
-//						for (int k = 0; k < aeropuertos.get(i).getRutas().get(j).getAerolineas().size(); k++) {
-//							if (aeropuertos.get(i).getRutas().get(j).getAerolineas().get(k).getNombre()
-//									.equals(aerolinea)) {
-//								aeropuertos.get(i).getRutas().get(j).getAerolineas().get(k).setReservas(reservas);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-		//optimizacion del metodo
+	public ArrayList<Reserva> getReservas() {
+		return new ArrayList<Reserva>(reservas);
+	}
+	public void addReserva(Reserva reserva) {
+		Aeropuerto Aorigen = devolverAeropuerto(reserva.getOrigen());
+		Aeropuerto Adestino = devolverAeropuerto(reserva.getDestino());
+		reservas.add(reserva);
 		ArrayList<Ruta> aux = new ArrayList<Ruta>(getRutas());
 		for (int i = 0 ; i < aux.size(); i++) {
 			if ((aux.get(i).getOrigen().equals(Aorigen) && (aux.get(i).getDestino().equals(Adestino)))) {
 				for (int j = 0 ; j < aux.get(i).getAerolineas().size(); j++) {
-					if (aux.get(i).getAerolineas().get(j).getNombre().equals(aerolinea)) {
-						aux.get(i).getAerolineas().get(j).setReservas(reservas);
+					if (aux.get(i).getAerolineas().get(j).getNombre().equals(reserva.getAerolinea())) {
+						aux.get(i).getAerolineas().get(j).setReservas(reserva);
 					}
 				}
 			}
