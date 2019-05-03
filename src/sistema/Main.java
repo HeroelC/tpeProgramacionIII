@@ -71,9 +71,9 @@ public class Main {
 	public static void leerArchivos(Sistema sistemaAereo) {
 
 		//CAMBIAR RUTAS SEGUN LA PC
-		String csvAeropuertos = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Aeropuertos.csv";
-		String csvRutas = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Rutas.csv";
-		String csvReservas = "C:/Users/Alumno/Desktop/Faca/tpeProgramacionIII/src/sistema/dataset/Reservas.csv";
+		String csvAeropuertos = "src/sistema/dataset/Aeropuertos.csv";
+		String csvRutas = "src/sistema/dataset/Rutas.csv";
+		String csvReservas = "src/sistema/dataset/Reservas.csv";
 		String line = "";
 		String cvsSplitBy = ";";
 

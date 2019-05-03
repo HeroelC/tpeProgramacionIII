@@ -33,7 +33,7 @@ public class Ruta {
 	public String reservasTotales(){
 		String reserva = "";
 		for ( int i = 0 ; i < aerolineas.size(); i ++) {
-			reserva += aerolineas.get(i).toString() + "/";
+			reserva += aerolineas.get(i).toString();
 		}
 		return reserva;
 	}
