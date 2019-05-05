@@ -1,10 +1,12 @@
 package sistema;
 
 public class Reserva {
+	
 	private String origen;
 	private String destino;
 	private String aerolinea;
 	private int cantidad;
+	
 	public Reserva(String origen, String destino, String aerolinea, int cantidad) {
 		this.origen = origen;
 		this.destino = destino;

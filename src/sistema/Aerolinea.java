@@ -32,11 +32,9 @@ public class Aerolinea {
     	this.reserva = reserva;
     }
    
-    //fixear
-//    public int getDisponibles() {
-//    	return capacidad - reservas;
-//    }
-
+    public int getDisponibles() {
+    	return capacidad - reserva.getCantidad();
+    }
 
 //	fixear
 //	public String toString() {

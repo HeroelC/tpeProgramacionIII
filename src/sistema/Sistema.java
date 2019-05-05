@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class Sistema {
 
+	//CONSTANTES
+	private final int NO_VISITADO = 0;
+	private final int VISITADO = 1;
+	private final int TERMINADO = 2;
+	
 	// ATRIBUTOS
 	private ArrayList<Aeropuerto> aeropuertos;
 	private ArrayList<Reserva> reservas;
@@ -13,13 +18,7 @@ public class Sistema {
 		reservas = new ArrayList<Reserva>();
 	}
 
-	/*
-	 * Por el momento faltaría que después se agreguen las Aerolineas Por el
-	 * momento agrego las rutas al sistema también, después decidir si se van a
-	 * utilizar o no
-	 */
 	public void addRuta(Ruta ruta) {
-
 		// Buscamos la posición del origen y destino y las guardamos para evitar
 		// recorridos innecesarios
 		String origen = ruta.getOrigen().getNombre();
@@ -111,16 +110,21 @@ public class Sistema {
 		}
 		return aux;
 	}
+	//Funcion para listar las reservas [Item 2 del TP]
 	public ArrayList<Reserva> getReservas() {
 		return new ArrayList<Reserva>(reservas);
 	}
+	
 	public void addReserva(Reserva reserva) {
-		Aeropuerto Aorigen = devolverAeropuerto(reserva.getOrigen());
-		Aeropuerto Adestino = devolverAeropuerto(reserva.getDestino());
-		reservas.add(reserva);
+		
+		Aeropuerto aOrigen = devolverAeropuerto(reserva.getOrigen());
+		Aeropuerto aDestino = devolverAeropuerto(reserva.getDestino());
+		
+		reservas.add(reserva); //Agregamos la reserva al ArrayList de reservas del sistema
+		
 		ArrayList<Ruta> aux = new ArrayList<Ruta>(getRutas());
 		for (int i = 0 ; i < aux.size(); i++) {
-			if ((aux.get(i).getOrigen().equals(Aorigen) && (aux.get(i).getDestino().equals(Adestino)))) {
+			if ((aux.get(i).getOrigen().equals(aOrigen) && (aux.get(i).getDestino().equals(aDestino)))) {
 				for (int j = 0 ; j < aux.get(i).getAerolineas().size(); j++) {
 					if (aux.get(i).getAerolineas().get(j).getNombre().equals(reserva.getAerolinea())) {
 						aux.get(i).getAerolineas().get(j).setReservas(reserva);

@@ -9,21 +9,34 @@ public class Aeropuerto {
     private String ciudad;
     private String pais;
     private String nombre;
+    
+    //Variable para recorrido
+    private int estado;
 
     public Aeropuerto(String nombre, String ciudad, String pais){
-
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.pais = pais;
         this.rutas = new ArrayList<Ruta>();
     }
+    
     public ArrayList<Ruta> getRutas(){
     	ArrayList<Ruta> aux = new ArrayList<Ruta>(rutas);
     	return aux;
     }
+    
     public String getCiudad(){
         return ciudad;
     }
+    
+    public int getEstado() {
+    	return estado;
+    }
+    
+    public void setEstado(int estado) {
+    	this.estado = estado;
+    }
+    
     public boolean equals(Object o) {
     	Aeropuerto a = (Aeropuerto) o;
     	return this.nombre == a.getNombre();
@@ -44,7 +57,6 @@ public class Aeropuerto {
         return nombre;
     }
     
-    //¿Necesario?
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
