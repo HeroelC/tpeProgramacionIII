@@ -28,7 +28,10 @@ public class Ruta {
 	public void setOrigen(Aeropuerto origen) {
 		this.origen = origen;
 	}
-
+	public boolean equals(Object o) {
+		Ruta r = (Ruta) o;
+		return this.origen.equals(r.getOrigen()) && this.destino.equals(r.getDestino());
+	}
 	// devuelvo los ToString concatenado de las aerolineas
 	public String reservasTotales() {
 		String reserva = "";
@@ -74,7 +77,6 @@ public class Ruta {
 	}
 
 	public String toString() {
-		return "De: " + origen.getNombre() + " - A: " + destino.getNombre() + " - Son: " + distancia
-				+ "km. - " + "Es internacional: " + internacional + reservasTotales();
+		return origen.getNombre() + " -- " + destino.getNombre();
 	}
 }

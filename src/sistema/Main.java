@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 //El main no debería ir en este package, luego podría sacarse
 public class Main {
@@ -48,9 +49,9 @@ public class Main {
 			break;
 		case 3:
 			listarAeropuertos(sistemaAereo);
-			System.out.println("Ingrese aerolinea origen");
+			System.out.println("Ingrese aeropuerto origen");
 			int origen = pedirNumero();
-			System.out.println("Ingrese aerolinea destino");
+			System.out.println("Ingrese aeropuerto destino");
 			int destino = pedirNumero();
 			Ruta vuelo = sistemaAereo.buscarVueloDirecto(origen, destino);
 			if (vuelo != null) {
@@ -61,10 +62,18 @@ public class Main {
 			}
 			break;
 		case 4:
-			System.out.println("No podemos resolver su consulta en este momento, intente nuevamente mas tarde");
+			listarAeropuertos(sistemaAereo);
+			System.out.println("Ingrese aeropuerto origen");
+			int Aorigen = pedirNumero();
+			System.out.println("Ingrese aeropuerto destino");
+			int Adestino = pedirNumero();
+			ArrayList<LinkedList<Ruta>> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino);
+			System.out.println("test");
+			System.out.println(rutas);
+			System.out.println("test");
 			break;
 		case 5:
-			System.out.println("No podemos resolver su consulta en este momento, intente nuevamente mas tarde");
+			System.out.println("La opción ingresada es incorrecta");
 			break;
 		default:
 			System.out.println("La opción ingresada es incorrecta");

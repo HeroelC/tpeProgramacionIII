@@ -39,7 +39,7 @@ public class Aeropuerto {
     
     public boolean equals(Object o) {
     	Aeropuerto a = (Aeropuerto) o;
-    	return this.nombre == a.getNombre();
+    	return this.nombre.equals(a.getNombre());
     }
     public void setCiudad(String ciudad){
         this.ciudad = ciudad;
