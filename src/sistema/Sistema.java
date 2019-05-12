@@ -64,9 +64,9 @@ public class Sistema {
 			return aerolineas;
 		}
 	}
-	public ArrayList<Ruta> obtenerVueloEntrePaises(String origen, String destino) {
+	public ArrayList<Vuelo> obtenerVueloEntrePaises(String origen, String destino) {
 		// Guarda las rutas del país origen que llegan directamente al país destino
-		ArrayList<Ruta> rutaDirecta = new ArrayList<>();
+		ArrayList<Vuelo> rutaDirecta = new ArrayList<>();
 
 		// Guardamos todas las rutas de los aeropuertos del país de origen
 		ArrayList<Ruta> rutasOrigen = new ArrayList<>();
@@ -89,8 +89,15 @@ public class Sistema {
 
 		for (int i = 0; i < rutasOrigen.size(); i++) {
 			if (rutasOrigen.get(i).getDestino().getPais().equals(destino)) {
-
-				rutaDirecta.add(rutasOrigen.get(i));
+					ArrayList<Aerolinea> aerolineas = rutasOrigen.get(i).getAerolineas();
+					for(int j = 0; j < aerolineas.size(); j++) {
+						if (aerolineas.get(j).getDisponible()) {
+							Vuelo informacion = new Vuelo(rutasOrigen.get(i).getOrigen().getNombre(),
+									rutasOrigen.get(i).getDestino().getNombre(), rutasOrigen.get(i).getDistancia(),
+									aerolineas.get(j).getDisponibles(), aerolineas.get(j).getNombre());
+								rutaDirecta.add(informacion);
+						}
+					}
 			}
 		}
 

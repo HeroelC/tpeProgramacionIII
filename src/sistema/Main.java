@@ -38,12 +38,13 @@ public class Main {
 			listarAeropuertos(sistemaAereo);
 			break;
 		case 2:
-			//pido todas las rutas y las imprimo mostrando las reservas de cada aerolinea dentro de cada ruta
+			// pido todas las rutas y las imprimo mostrando las reservas de cada aerolinea
+			// dentro de cada ruta
 			ArrayList<Reserva> reservas = sistemaAereo.getReservas();
-			for ( int i = 0 ; i < reservas.size(); i++) {
+			for (int i = 0; i < reservas.size(); i++) {
 				System.out.println(reservas.get(i).toString());
 			}
-			
+
 //			fixear
 //			escribirArchivos(reservas);
 			break;
@@ -54,17 +55,17 @@ public class Main {
 			System.out.println("Ingrese aeropuerto destino");
 			int destino = pedirNumero();
 			ArrayList<String> aerolineas = sistemaAereo.listarAerolineas();
-			for(int i = 0; i < aerolineas.size(); i++) {
-				System.out.println((i +1) + ". "+ aerolineas.get(i));
+			for (int i = 0; i < aerolineas.size(); i++) {
+				System.out.println((i + 1) + ". " + aerolineas.get(i));
 			}
 			System.out.println("Ingrese aerolinea deseada");
 			int aerolinea = pedirNumero();
-			Vuelo vuelo = sistemaAereo.buscarVueloDirecto(origen, destino, aerolineas.get(aerolinea-1));
+			Vuelo vuelo = sistemaAereo.buscarVueloDirecto(origen, destino, aerolineas.get(aerolinea - 1));
 			if (vuelo != null) {
 				System.out.println(vuelo.toString());
-			}
-			else {
-				System.out.println("No se ha encontrado un vuelto directo entre los aeropuertos y la aerolinea especificada");
+			} else {
+				System.out.println(
+						"No se ha encontrado un vuelto directo entre los aeropuertos y la aerolinea especificada");
 			}
 			break;
 		case 4:
@@ -80,17 +81,22 @@ public class Main {
 			break;
 		case 5:
 			ArrayList<String> paises = sistemaAereo.listarPaises();
-			for(int i = 0; i < paises.size(); i++) {
-				System.out.println((i +1) + ". "+ paises.get(i));
+			for (int i = 0; i < paises.size(); i++) {
+				System.out.println((i + 1) + ". " + paises.get(i));
 			}
 			System.out.println("Ingrese país origen");
 			int paisOrigen = pedirNumero();
 			System.out.println("Ingrese país destino");
 			int paisDestino = pedirNumero();
-			
-			ArrayList<Ruta> vuelosDirectos = sistemaAereo.obtenerVueloEntrePaises(paises.get(paisOrigen-1), paises.get(paisDestino-1));
-			for(int j = 0; j < vuelosDirectos.size(); j++) {
-				System.out.println(vuelosDirectos.get(j).toString());
+
+			ArrayList<Vuelo> vuelosDirectos = sistemaAereo.obtenerVueloEntrePaises(paises.get(paisOrigen - 1),
+					paises.get(paisDestino - 1));
+			if (!vuelosDirectos.isEmpty()) {
+				for (int j = 0; j < vuelosDirectos.size(); j++) {
+					System.out.println(vuelosDirectos.get(j).toString());
+				}
+			} else {
+				System.out.println("no hay vuelos disponibles entre los paises especificados");
 			}
 			break;
 		default:
@@ -100,7 +106,7 @@ public class Main {
 
 	public static void leerArchivos(Sistema sistemaAereo) {
 
-		//CAMBIAR RUTAS SEGUN LA PC
+		// CAMBIAR RUTAS SEGUN LA PC
 		String csvAeropuertos = "src/sistema/dataset/Aeropuertos.csv";
 		String csvRutas = "src/sistema/dataset/Rutas.csv";
 		String csvReservas = "src/sistema/dataset/Reservas.csv";
@@ -112,8 +118,8 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] aeropuertos = line.split(cvsSplitBy);
-				
-				//Cambio de recibir todo los parametros a solo recibir el aeropuerto construido
+
+				// Cambio de recibir todo los parametros a solo recibir el aeropuerto construido
 				Aeropuerto aeropuerto = new Aeropuerto(aeropuertos[0], aeropuertos[1], aeropuertos[2]);
 				sistemaAereo.addAeropuerto(aeropuerto);
 			}
@@ -125,14 +131,13 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] rutas = line.split(cvsSplitBy);
-				
 
 				ArrayList<Aerolinea> aux = new ArrayList<>();
-				
-				//Esto separa las aerolineas que vienen individualmente
+
+				// Esto separa las aerolineas que vienen individualmente
 				String[] aerolineas = rutas[4].split(",");
-				for(int i=0; i < aerolineas.length; i++) {
-					//cambiar esto para splitear por guion
+				for (int i = 0; i < aerolineas.length; i++) {
+					// cambiar esto para splitear por guion
 					aerolineas[i] = aerolineas[i].replaceAll("\\}", "");
 					aerolineas[i] = aerolineas[i].replaceAll("\\{", "");
 					String[] aeroNombreCant = aerolineas[i].split("-");
@@ -144,15 +149,17 @@ public class Main {
 					rutas[3] = "true";
 				}
 
-				/*busco los aeropuertos por el nombre, podria ser
-				busarAeropuertoPorNombre(mas representativo)*/
+				/*
+				 * busco los aeropuertos por el nombre, podria ser busarAeropuertoPorNombre(mas
+				 * representativo)
+				 */
 				Aeropuerto origen = sistemaAereo.devolverAeropuerto(rutas[0]);
 				Aeropuerto destino = sistemaAereo.devolverAeropuerto(rutas[1]);
-				//le paso por parametro a la instancia de ruta los aeropuertos encontrados
+				// le paso por parametro a la instancia de ruta los aeropuertos encontrados
 				Ruta ruta = new Ruta(origen, destino, Double.parseDouble(rutas[2]), Boolean.parseBoolean(rutas[3]));
-				
+
 				ruta.addAerolineas(aux);
-				
+
 				sistemaAereo.addRuta(ruta);
 			}
 		} catch (IOException e) {
@@ -181,8 +188,8 @@ public class Main {
 
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
-			
-			for ( int i = 0; i < rutas.size(); i++) {	
+
+			for (int i = 0; i < rutas.size(); i++) {
 				String contenidoLinea1 = rutas.get(i).toString();
 				contenidoLinea1 = contenidoLinea1.replaceAll("-", "\\;");
 				bw.write(contenidoLinea1);
