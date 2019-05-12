@@ -15,7 +15,11 @@ public class Aerolinea {
     public String getNombre(){
         return nombre;
     }
-
+    
+    public boolean getDisponible() {
+    	return getDisponibles() > 0;
+    }
+    
     public int getCapacidad() {
     	return capacidad;
     }

@@ -77,6 +77,6 @@ public class Ruta {
 	}
 
 	public String toString() {
-		return origen.getNombre() + " -- " + destino.getNombre();
+		return origen.getNombre() + " País: " + origen.getPais() + " " + destino.getNombre() + " País " + destino.getPais();
 	}
 }

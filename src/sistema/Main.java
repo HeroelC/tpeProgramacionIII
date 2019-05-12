@@ -73,7 +73,19 @@ public class Main {
 			System.out.println("test");
 			break;
 		case 5:
-			System.out.println("La opción ingresada es incorrecta");
+			ArrayList<String> paises = sistemaAereo.listarPaises();
+			for(int i = 0; i < paises.size(); i++) {
+				System.out.println((i +1) + ". "+ paises.get(i));
+			}
+			System.out.println("Ingrese país origen");
+			int paisOrigen = pedirNumero();
+			System.out.println("Ingrese país destino");
+			int paisDestino = pedirNumero();
+			
+			ArrayList<Ruta> vuelosDirectos = sistemaAereo.obtenerVueloEntrePaises(paises.get(paisOrigen-1), paises.get(paisDestino-1));
+			for(int j = 0; j < vuelosDirectos.size(); j++) {
+				System.out.println(vuelosDirectos.get(j).toString());
+			}
 			break;
 		default:
 			System.out.println("La opción ingresada es incorrecta");

@@ -13,11 +13,67 @@ public class Sistema {
 	private ArrayList<Aeropuerto> aeropuertos;
 	private ArrayList<Reserva> reservas;
 	private ArrayList<LinkedList<Ruta>> vuelos; 
-
+	
+	//ATRIBUTOS de SERVICIO 3
+	private boolean listaDePaises;
+	private ArrayList<String> paises;
+	
 	public Sistema() {
 		aeropuertos = new ArrayList<Aeropuerto>();
 		reservas = new ArrayList<Reserva>();
 		vuelos = new ArrayList<LinkedList<Ruta>>();
+		
+		//SERVICIO 3
+		listaDePaises = false;
+		paises = new ArrayList<String>();
+	}
+	
+	public ArrayList<String> listarPaises() {
+		
+		if(!listaDePaises) {
+			for(int i = 0; i < aeropuertos.size(); i++) {
+				if(!paises.contains(aeropuertos.get(i).getPais())) {
+					paises.add(aeropuertos.get(i).getPais());
+				}
+				listaDePaises = true;
+			}
+			return paises;
+		}else {
+			return paises;
+		}
+	}
+	
+	public ArrayList<Ruta> obtenerVueloEntrePaises(String origen, String destino){
+		//Guarda las rutas del país origen que llegan directamente al país destino
+		ArrayList<Ruta> rutaDirecta = new ArrayList<>();
+
+		//Guardamos todas las rutas de los aeropuertos del país de origen
+		ArrayList<Ruta> rutasOrigen = new ArrayList<>();
+		
+		//Guardamos los aeropuertos del país origen
+		ArrayList<Aeropuerto> aeropuertoOrigen = new ArrayList<>();
+		
+		//Esta funciona testeada
+		for(int i = 0; i < aeropuertos.size(); i++) {
+			
+			if((aeropuertos.get(i).getPais().equals(origen)) && (aeropuertos.get(i).getPais().equals(origen))) {
+				aeropuertoOrigen.add(aeropuertos.get(i));
+			}
+		}
+		
+		for(int i = 0; i < aeropuertoOrigen.size() ; i++) {
+			rutasOrigen.addAll(aeropuertoOrigen.get(i).getRutas());
+			
+		}
+		
+		for(int i = 0; i < rutasOrigen.size(); i++) {
+			if(rutasOrigen.get(i).getDestino().getPais().equals(destino)) {
+				
+				rutaDirecta.add(rutasOrigen.get(i));
+			}
+		}
+		
+		return rutaDirecta;
 	}
 
 	public void addRuta(Ruta ruta) {
