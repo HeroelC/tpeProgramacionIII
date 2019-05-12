@@ -53,12 +53,18 @@ public class Main {
 			int origen = pedirNumero();
 			System.out.println("Ingrese aeropuerto destino");
 			int destino = pedirNumero();
-			Ruta vuelo = sistemaAereo.buscarVueloDirecto(origen, destino);
+			ArrayList<String> aerolineas = sistemaAereo.listarAerolineas();
+			for(int i = 0; i < aerolineas.size(); i++) {
+				System.out.println((i +1) + ". "+ aerolineas.get(i));
+			}
+			System.out.println("Ingrese aerolinea deseada");
+			int aerolinea = pedirNumero();
+			Vuelo vuelo = sistemaAereo.buscarVueloDirecto(origen, destino, aerolineas.get(aerolinea-1));
 			if (vuelo != null) {
 				System.out.println(vuelo.toString());
 			}
 			else {
-				System.out.println("No se ha encontrado un vuelto directo entre los aeropuertos especificados");
+				System.out.println("No se ha encontrado un vuelto directo entre los aeropuertos y la aerolinea especificada");
 			}
 			break;
 		case 4:
