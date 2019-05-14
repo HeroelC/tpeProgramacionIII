@@ -253,26 +253,27 @@ public class Sistema {
 		if (ruta.getDestino().equals(destino)) {
 			// Agregamos la ruta final al camino actual, que es el destino que buscamos.
 			caminoActual.addLast(ruta);
+			LinkedList<Ruta> aux = new LinkedList<Ruta>(caminoActual);
 			// Agregamos el camino actual que encontró a la estructura general.
-			vuelos.add(caminoActual);
+			vuelos.add(aux);
 		} else {
 			// le pido los adyacentes al destino
 			ArrayList<Ruta> rutas = ruta.getDestino().getRutas();
+			caminoActual.addLast(ruta);
 			// iteros sobre ellos
 			for (int i = 0; i < rutas.size(); i++) {
 				// pregunto si no lo visité para evitar ciclos
 				if (rutas.get(i).getDestino().getEstado() == NO_VISITADO) {
 					// marco la primera ruta adyacente
-					caminoActual.addLast(rutas.get(i));
 					// exploro
 					dfs_visit(rutas.get(i), destino, caminoActual);
 					// desmarco la primera ruta adyacente
-					caminoActual.removeLast();
 				}
 			}
 			// marco como no visitado el aeropuerto de origen al salir de la recursion
-			ruta.getOrigen().setEstado(NO_VISITADO);
 		}
+		ruta.getOrigen().setEstado(NO_VISITADO);
+		caminoActual.removeLast();
 	}
 
 }

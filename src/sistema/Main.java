@@ -75,9 +75,13 @@ public class Main {
 			System.out.println("Ingrese aeropuerto destino");
 			int Adestino = pedirNumero();
 			ArrayList<LinkedList<Ruta>> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino);
-			System.out.println("test");
-			System.out.println(rutas);
-			System.out.println("test");
+			for ( int i = 0 ; i < rutas.size(); i ++) {
+				LinkedList<Ruta> camino = rutas.get(i);
+				for(int j = 0; j < camino.size(); j++) {
+					System.out.print(camino.get(j) + " - ");
+				}
+				System.out.println("");
+			}
 			break;
 		case 5:
 			ArrayList<String> paises = sistemaAereo.listarPaises();
