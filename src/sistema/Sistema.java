@@ -114,7 +114,9 @@ public class Sistema {
 		int posicionDestino = buscarAeropuerto(destino);
 
 		// creamos la ruta invertida
+		ArrayList <Aerolinea> aux = new ArrayList<Aerolinea>(ruta.getAerolineas());
 		Ruta rutaInvertida = new Ruta(ruta.getDestino(), ruta.getOrigen(), ruta.getDistancia(), ruta.esInternacional());
+		rutaInvertida.addAerolineas(aux);
 		// guardamos los aeropuertos para no pisarlos
 
 		// Agregamos las rutas al sistema y a su vez los aeropuertos crean sus rutas
