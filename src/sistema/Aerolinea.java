@@ -40,7 +40,7 @@ public class Aerolinea {
 		if (reserva != null) {
 			return capacidad - reserva.getCantidad();
 		} else {
-			return 0;
+			return capacidad;
 		}
 	}
 
