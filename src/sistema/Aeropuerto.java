@@ -24,7 +24,15 @@ public class Aeropuerto {
     	ArrayList<Ruta> aux = new ArrayList<Ruta>(rutas);
     	return aux;
     }
-    
+    public ArrayList<Ruta> getRutasInternacionales(){
+    	ArrayList<Ruta> aux = new ArrayList<Ruta>();
+    	for (int i = 0; i < rutas.size(); i++) {
+    		if (rutas.get(i).esInternacional()) {
+    			aux.add(rutas.get(i));
+    		}
+    	}
+    	return aux;
+    }
     public String getCiudad(){
         return ciudad;
     }

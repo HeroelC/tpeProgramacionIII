@@ -83,8 +83,7 @@ public class Sistema {
 		}
 
 		for (int i = 0; i < aeropuertoOrigen.size(); i++) {
-			rutasOrigen.addAll(aeropuertoOrigen.get(i).getRutas());
-
+			rutasOrigen.addAll(aeropuertoOrigen.get(i).getRutasInternacionales());
 		}
 
 		for (int i = 0; i < rutasOrigen.size(); i++) {
