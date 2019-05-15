@@ -74,7 +74,14 @@ public class Main {
 			int Aorigen = pedirNumero();
 			System.out.println("Ingrese aeropuerto destino");
 			int Adestino = pedirNumero();
-			ArrayList<LinkedList<Ruta>> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino);
+			ArrayList<String> aerolineasDisponibles = sistemaAereo.listarAerolineas();
+			for (int i = 0; i < aerolineasDisponibles.size(); i++) {
+				System.out.println((i + 1) + ". " + aerolineasDisponibles.get(i));
+			}
+			System.out.println("Ingrese aerolinea deseada");
+			int aerolineaNoDeseada = pedirNumero();
+			ArrayList<LinkedList<Ruta>> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino,
+					aerolineasDisponibles.get(aerolineaNoDeseada-1));
 			for ( int i = 0 ; i < rutas.size(); i ++) {
 				LinkedList<Ruta> camino = rutas.get(i);
 				for(int j = 0; j < camino.size(); j++) {

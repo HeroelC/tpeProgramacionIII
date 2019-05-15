@@ -228,7 +228,7 @@ public class Sistema {
 		}
 	}
 
-	public ArrayList<LinkedList<Ruta>> obtenerVuelosDisponibles(int origen, int destino) {
+	public ArrayList<LinkedList<Ruta>> obtenerVuelosDisponibles(int origen, int destino, String aerolinea) {
 
 		vuelos.clear();
 		ArrayList<Ruta> rutasOrigen = aeropuertos.get(origen - 1).getRutas();
@@ -240,22 +240,46 @@ public class Sistema {
 
 		for (int i = 0; i < rutasOrigen.size(); i++) {
 			if (rutasOrigen.get(i).getOrigen().getEstado() == NO_VISITADO) {
-				dfs_visit(rutasOrigen.get(i), aeropuertos.get(destino - 1), caminoActual);
+				dfs_visit(rutasOrigen.get(i), aeropuertos.get(destino - 1), caminoActual, aerolinea);
 			}
 		}
-
+		
 		return vuelos;
 	}
-
-	private void dfs_visit(Ruta ruta, Aeropuerto destino, LinkedList<Ruta> caminoActual) {
+	private double seCumple (LinkedList<Ruta> camino, String aerolinea) {
+		double kmTotales = 0;
+		for ( int i = 0; i < camino.size(); i++) {
+			ArrayList<Aerolinea> aerolineas = camino.get(i).getAerolineas();
+			int contAerolineas = 0;
+			for (int j = 0; j < aerolineas.size(); j++) {
+				if(!aerolineas.get(j).getNombre().equals(aerolinea)) {
+					if (aerolineas.get(j).getDisponible()) {
+						contAerolineas++;
+					}
+				}
+			}
+			if (contAerolineas > 0) {
+				kmTotales += camino.get(i).getDistancia();
+			}
+			else {
+				return 0;
+			}
+		}
+		return kmTotales;
+	}
+	private void dfs_visit(Ruta ruta, Aeropuerto destino, LinkedList<Ruta> caminoActual, String aerolinea) {
 		// Marco como visitado el aeropuerto de origen
 		ruta.getOrigen().setEstado(VISITADO);
+		
 		if (ruta.getDestino().equals(destino)) {
 			// Agregamos la ruta final al camino actual, que es el destino que buscamos.
 			caminoActual.addLast(ruta);
-			LinkedList<Ruta> aux = new LinkedList<Ruta>(caminoActual);
+			
+			if(seCumple(caminoActual, aerolinea) > 0) {
+				LinkedList<Ruta> aux = new LinkedList<Ruta>(caminoActual);
+				vuelos.add(aux);
+			}
 			// Agregamos el camino actual que encontró a la estructura general.
-			vuelos.add(aux);
 		} else {
 			// le pido los adyacentes al destino
 			ArrayList<Ruta> rutas = ruta.getDestino().getRutas();
@@ -266,7 +290,7 @@ public class Sistema {
 				if (rutas.get(i).getDestino().getEstado() == NO_VISITADO) {
 					// marco la primera ruta adyacente
 					// exploro
-					dfs_visit(rutas.get(i), destino, caminoActual);
+					dfs_visit(rutas.get(i), destino, caminoActual, aerolinea);
 					// desmarco la primera ruta adyacente
 				}
 			}
