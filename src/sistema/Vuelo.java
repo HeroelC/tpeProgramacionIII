@@ -46,12 +46,9 @@ public class Vuelo {
 	}
 	@Override
 	public String toString() {
-		return "Vuelo [origen=" + origen + ", destino=" + destino + ", km=" + km + ", cantidad=" + cantidad
-				+ ", aerolinea=" + aerolinea + "]";
-	}
-
-
-
-	
+		return "Datos de vuelo su origen es: " + origen + ", el destino: " + destino +
+				", cantidad de km: " + km + ", cantidad disponible: " + cantidad
+				+ ", aerolinea: " + aerolinea;
+	} 
 
 }

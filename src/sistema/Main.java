@@ -26,13 +26,18 @@ public class Main {
 
 		mensajeBienvenida();
 
+		boolean repetir = true;
+		
+		while(repetir) {
+		
 		listaOpcionesDeMenu();
-
+		
 		int opcion = pedirNumero();
 
 		switch (opcion) {
 		case 0:
 			System.out.println("Gracias por utilizar el sistema de información a viajeros frecuentes");
+			repetir = false;
 			break;
 		case 1:
 			listarAeropuertos(sistemaAereo);
@@ -78,16 +83,12 @@ public class Main {
 			for (int i = 0; i < aerolineasDisponibles.size(); i++) {
 				System.out.println((i + 1) + ". " + aerolineasDisponibles.get(i));
 			}
-			System.out.println("Ingrese aerolinea deseada");
+			System.out.println("Ingrese aerolinea no deseada: ");
 			int aerolineaNoDeseada = pedirNumero();
-			ArrayList<LinkedList<Ruta>> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino,
+			ArrayList<VueloConEscala> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino,
 					aerolineasDisponibles.get(aerolineaNoDeseada-1));
 			for ( int i = 0 ; i < rutas.size(); i ++) {
-				LinkedList<Ruta> camino = rutas.get(i);
-				for(int j = 0; j < camino.size(); j++) {
-					System.out.print(camino.get(j) + " - ");
-				}
-				System.out.println("");
+				System.out.println(rutas.get(i).toString());
 			}
 			break;
 		case 5:
@@ -107,12 +108,16 @@ public class Main {
 					System.out.println(vuelosDirectos.get(j).toString());
 				}
 			} else {
-				System.out.println("no hay vuelos disponibles entre los paises especificados");
+				System.out.println("No hay vuelos disponibles entre los paises especificados.");
 			}
 			break;
 		default:
-			System.out.println("La opción ingresada es incorrecta");
+			System.out.println("La opción ingresada es incorrecta.");
+			repetir = false;
 		}
+		System.out.println("*****************************************************************");
+		System.out.println("¿Desea realizar otra consulta?");
+	  }
 	}
 
 	public static void leerArchivos(Sistema sistemaAereo) {

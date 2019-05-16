@@ -12,7 +12,7 @@ public class Sistema {
 	// ATRIBUTOS
 	private ArrayList<Aeropuerto> aeropuertos;
 	private ArrayList<Reserva> reservas;
-	private ArrayList<LinkedList<Ruta>> vuelos;
+	private ArrayList<VueloConEscala> vuelos;
 
 	// ATRIBUTOS de SERVICIO
 	private boolean listaDePaises;
@@ -23,7 +23,7 @@ public class Sistema {
 	public Sistema() {
 		aeropuertos = new ArrayList<Aeropuerto>();
 		reservas = new ArrayList<Reserva>();
-		vuelos = new ArrayList<LinkedList<Ruta>>();
+		vuelos = new ArrayList<VueloConEscala>();
 
 		// SERVICIO 3
 		listaDePaises = false;
@@ -229,7 +229,7 @@ public class Sistema {
 		}
 	}
 
-	public ArrayList<LinkedList<Ruta>> obtenerVuelosDisponibles(int origen, int destino, String aerolinea) {
+	public ArrayList<VueloConEscala> obtenerVuelosDisponibles(int origen, int destino, String aerolinea) {
 
 		vuelos.clear();
 		ArrayList<Ruta> rutasOrigen = aeropuertos.get(origen - 1).getRutas();
@@ -241,7 +241,8 @@ public class Sistema {
 
 		for (int i = 0; i < rutasOrigen.size(); i++) {
 			if (rutasOrigen.get(i).getOrigen().getEstado() == NO_VISITADO) {
-				dfs_visit(rutasOrigen.get(i), aeropuertos.get(destino - 1), caminoActual, aerolinea);
+				dfs_visit(rutasOrigen.get(i), aeropuertos.get(destino - 1), caminoActual,
+						aeropuertos.get(origen - 1).getNombre(), aerolinea);
 			}
 		}
 		
@@ -268,7 +269,7 @@ public class Sistema {
 		}
 		return kmTotales;
 	}
-	private void dfs_visit(Ruta ruta, Aeropuerto destino, LinkedList<Ruta> caminoActual, String aerolinea) {
+	private void dfs_visit(Ruta ruta, Aeropuerto destino, LinkedList<Ruta> caminoActual, String origen, String aerolinea) {
 		// Marco como visitado el aeropuerto de origen
 		ruta.getOrigen().setEstado(VISITADO);
 		
@@ -276,9 +277,11 @@ public class Sistema {
 			// Agregamos la ruta final al camino actual, que es el destino que buscamos.
 			caminoActual.addLast(ruta);
 			
-			if(seCumple(caminoActual, aerolinea) > 0) {
+			double kmTotales = seCumple(caminoActual, aerolinea); 
+			if(kmTotales > 0) {
 				LinkedList<Ruta> aux = new LinkedList<Ruta>(caminoActual);
-				vuelos.add(aux);
+				VueloConEscala auxVuelo = new VueloConEscala(origen, destino.getNombre(), aux.size(), kmTotales);
+				vuelos.add(auxVuelo);
 			}
 			// Agregamos el camino actual que encontró a la estructura general.
 		} else {
@@ -291,7 +294,7 @@ public class Sistema {
 				if (rutas.get(i).getDestino().getEstado() == NO_VISITADO) {
 					// marco la primera ruta adyacente
 					// exploro
-					dfs_visit(rutas.get(i), destino, caminoActual, aerolinea);
+					dfs_visit(rutas.get(i), destino, caminoActual, origen, aerolinea);
 					// desmarco la primera ruta adyacente
 				}
 			}
