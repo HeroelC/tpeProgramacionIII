@@ -174,7 +174,7 @@ public class Sistema {
 	 * de asientos que se encuentran disponible
 	 */
 	// Esta función no está agregada en el diagrama de clases
-	public Vuelo buscarVueloDirecto(int origen, int destino, String aerolinea) {
+	public ArrayList<Vuelo> buscarVueloDirecto(int origen, int destino, String aerolinea) {
 		// itero las rutas del aeropuerto origen
 		ArrayList<Ruta> aux = new ArrayList<>(aeropuertos.get(origen - 1).getRutas());
 		for (int i = 0; i < aux.size(); i++) {
@@ -183,9 +183,11 @@ public class Sistema {
 				ArrayList<Aerolinea> aerolineas = aux.get(i).getAerolineas();
 				for (int j = 0; j < aerolineas.size(); j++) {
 					if (aerolineas.get(j).getNombre().equals(aerolinea)) {
-						Vuelo retorno = new Vuelo(aeropuertos.get(origen - 1).getNombre(),
+						Vuelo vuelo = new Vuelo(aeropuertos.get(origen - 1).getNombre(),
 								aeropuertos.get(destino - 1).getNombre(), aux.get(i).getDistancia(),
 								aerolineas.get(j).getDisponibles(), aerolineas.get(j).getNombre());
+						ArrayList<Vuelo> retorno = new ArrayList();
+						retorno.add(vuelo);
 						return retorno;
 					}
 				}

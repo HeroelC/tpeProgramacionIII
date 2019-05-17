@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
+
 
 //El main no debería ir en este package, luego podría sacarse
 public class Main {
@@ -24,6 +24,8 @@ public class Main {
 
 	public static void menu(Sistema sistemaAereo) {
 
+		ArrayList<String> salida = new ArrayList<String>();
+		
 		mensajeBienvenida();
 
 		boolean repetir = true;
@@ -45,15 +47,14 @@ public class Main {
 		case 2:
 			// pido todas las rutas y las imprimo mostrando las reservas de cada aerolinea
 			// dentro de cada ruta
+			salida.clear();
 			ArrayList<Reserva> reservas = sistemaAereo.getReservas();
 			for (int i = 0; i < reservas.size(); i++) {
 				System.out.println(reservas.get(i).toString());
 			}
-
-//			fixear
-//			escribirArchivos(reservas);
 			break;
 		case 3:
+			salida.clear();
 			listarAeropuertos(sistemaAereo);
 			System.out.println("Ingrese aeropuerto origen");
 			int origen = pedirNumero();
@@ -65,15 +66,20 @@ public class Main {
 			}
 			System.out.println("Ingrese aerolinea deseada");
 			int aerolinea = pedirNumero();
-			Vuelo vuelo = sistemaAereo.buscarVueloDirecto(origen, destino, aerolineas.get(aerolinea - 1));
+			ArrayList<Vuelo> vuelo = sistemaAereo.buscarVueloDirecto(origen, destino, aerolineas.get(aerolinea - 1));
 			if (vuelo != null) {
-				System.out.println(vuelo.toString());
+				for(int i = 0; i<vuelo.size(); i++) {
+					System.out.println(vuelo.get(i).toString());
+					salida.add(vuelo.get(i).toString());
+				}
+				escribirArchivos(salida, opcion);
 			} else {
 				System.out.println(
 						"No se ha encontrado un vuelto directo entre los aeropuertos y la aerolinea especificada");
 			}
 			break;
 		case 4:
+			salida.clear();
 			listarAeropuertos(sistemaAereo);
 			System.out.println("Ingrese aeropuerto origen");
 			int Aorigen = pedirNumero();
@@ -87,11 +93,18 @@ public class Main {
 			int aerolineaNoDeseada = pedirNumero();
 			ArrayList<VueloConEscala> rutas = sistemaAereo.obtenerVuelosDisponibles(Aorigen, Adestino,
 					aerolineasDisponibles.get(aerolineaNoDeseada-1));
-			for ( int i = 0 ; i < rutas.size(); i ++) {
-				System.out.println(rutas.get(i).toString());
+			if (rutas.isEmpty()) {
+				System.out.println("No se han encontrado vuelos disponibles");
+			}else {
+				for ( int i = 0 ; i < rutas.size(); i ++) {
+					System.out.println(rutas.get(i).toString());
+					salida.add(rutas.get(i).toString());
+				}
+				escribirArchivos(salida, opcion);
 			}
 			break;
 		case 5:
+			salida.clear();
 			ArrayList<String> paises = sistemaAereo.listarPaises();
 			for (int i = 0; i < paises.size(); i++) {
 				System.out.println((i + 1) + ". " + paises.get(i));
@@ -106,7 +119,9 @@ public class Main {
 			if (!vuelosDirectos.isEmpty()) {
 				for (int j = 0; j < vuelosDirectos.size(); j++) {
 					System.out.println(vuelosDirectos.get(j).toString());
+					salida.add(vuelosDirectos.get(j).toString());
 				}
+				escribirArchivos(salida, opcion);
 			} else {
 				System.out.println("No hay vuelos disponibles entre los paises especificados.");
 			}
@@ -194,33 +209,50 @@ public class Main {
 		}
 	}
 
-	public static void escribirArchivos(ArrayList<Ruta> rutas) {
+	public static void escribirArchivos(ArrayList<String> salida, int archivo) {
 		BufferedWriter bw = null;
 		try {
-			File file = new File("src/sistema/dataget/salida.csv");
-			if (!file.exists()) {
-				file.createNewFile();
+			switch(archivo) {
+			case 3:			
+			File file1 = new File("src/sistema/dataget/servicio1.csv");
+			if (!file1.exists()) {
+				file1.createNewFile();
 			}
-
-			FileWriter fw = new FileWriter(file);
+			FileWriter fw = new FileWriter(file1);
 			bw = new BufferedWriter(fw);
-
-			for (int i = 0; i < rutas.size(); i++) {
-				String contenidoLinea1 = rutas.get(i).toString();
-				contenidoLinea1 = contenidoLinea1.replaceAll("-", "\\;");
+			for ( int i = 0 ; i < salida.size(); i++) {
+				String contenidoLinea1 = salida.get(i);
 				bw.write(contenidoLinea1);
 				bw.newLine();
 			}
-			// Escribo la primer linea del archivo
-//			String contenidoLinea1 = "Usuario1;Tiempo1";
-//			bw.write(contenidoLinea1);
-//			bw.newLine();
-
-			// Escribo la segunda linea del archivo
-//			String contenidoLinea2 = "Usuario2;Tiempo2";
-//			bw.write(contenidoLinea2);
-//			bw.newLine();
-
+			break;
+			case 4:
+			File file2 = new File("src/sistema/dataget/servicio2.csv");
+			if (!file2.exists()) {
+				file2.createNewFile();
+			}
+			FileWriter fw2 = new FileWriter(file2);
+			bw = new BufferedWriter(fw2);
+			for ( int i = 0 ; i < salida.size(); i++) {
+				String contenidoLinea1 = salida.get(i);
+				bw.write(contenidoLinea1);
+				bw.newLine();
+			}
+			break;
+			case 5:
+			File file3 = new File("src/sistema/dataget/servicio3.csv");
+			if (!file3.exists()) {
+				file3.createNewFile();
+			}
+			FileWriter fw3 = new FileWriter(file3);
+			bw = new BufferedWriter(fw3);
+			for ( int i = 0 ; i < salida.size(); i++) {
+				String contenidoLinea1 = salida.get(i);
+				bw.write(contenidoLinea1);
+				bw.newLine();
+			}
+			break;
+			}		
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
@@ -232,7 +264,6 @@ public class Main {
 			}
 		}
 	}
-
 	public static void mensajeBienvenida() {
 		System.out.println("Bienvenido al Sistema Centralizado de Información" + " a Viajeros Frecuentes");
 		System.out.println("¿Qué operación desea realizar?");
