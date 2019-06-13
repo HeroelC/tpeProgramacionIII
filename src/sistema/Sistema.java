@@ -13,6 +13,7 @@ public class Sistema {
 	private ArrayList<Aeropuerto> aeropuertos;
 	private ArrayList<Reserva> reservas;
 	private ArrayList<VueloConEscala> vuelos;
+	private Recorrido recorrido;
 
 	// ATRIBUTOS de SERVICIO
 	private boolean listaDePaises;
@@ -21,24 +22,25 @@ public class Sistema {
 	private ArrayList<String> aerolineas;
 	
 	public Sistema() {
-		aeropuertos = new ArrayList<Aeropuerto>();
-		reservas = new ArrayList<Reserva>();
-		vuelos = new ArrayList<VueloConEscala>();
+		aeropuertos = new ArrayList<>();
+		reservas = new ArrayList<>();
+		vuelos = new ArrayList<>();
+		recorrido = new Recorrido();
 
 		// SERVICIO 3
 		listaDePaises = false;
-		paises = new ArrayList<String>();
+		paises = new ArrayList<>();
 		
 		listaDeAerolineas = false;
-		aerolineas = new ArrayList<String>();
+		aerolineas = new ArrayList<>();
 	}
 
 	public ArrayList<String> listarPaises() {
 
 		if (!listaDePaises) {
-			for (int i = 0; i < aeropuertos.size(); i++) {
-				if (!paises.contains(aeropuertos.get(i).getPais())) {
-					paises.add(aeropuertos.get(i).getPais());
+			for (Aeropuerto aeropuerto : aeropuertos) {
+				if (!paises.contains(aeropuerto.getPais())) {
+					paises.add(aeropuerto.getPais());
 				}
 				listaDePaises = true;
 			}
@@ -50,11 +52,11 @@ public class Sistema {
 	public ArrayList<String> listarAerolineas(){
 		ArrayList<Ruta> rutas = getRutas();
 		if (!listaDeAerolineas) {
-			for (int i = 0; i < rutas.size(); i++) {
-				ArrayList<Aerolinea> aerolineasRuta = rutas.get(i).getAerolineas();
-				for (int j = 0 ; j < aerolineasRuta.size(); j++) {
-					if (!aerolineas.contains(aerolineasRuta.get(j).getNombre())) {
-						aerolineas.add(aerolineasRuta.get(j).getNombre());
+			for (Ruta ruta : rutas) {
+				ArrayList<Aerolinea> aerolineasRuta = ruta.getAerolineas();
+				for (Aerolinea aerolinea : aerolineasRuta) {
+					if (!aerolineas.contains(aerolinea.getNombre())) {
+						aerolineas.add(aerolinea.getNombre());
 					}
 					listaDeAerolineas = true;
 				}
@@ -75,28 +77,28 @@ public class Sistema {
 		ArrayList<Aeropuerto> aeropuertoOrigen = new ArrayList<>();
 
 		// Esta funciona testeada
-		for (int i = 0; i < aeropuertos.size(); i++) {
+		for (Aeropuerto value : aeropuertos) {
 
-			if ((aeropuertos.get(i).getPais().equals(origen)) && (aeropuertos.get(i).getPais().equals(origen))) {
-				aeropuertoOrigen.add(aeropuertos.get(i));
+			if ((value.getPais().equals(origen)) && (value.getPais().equals(origen))) {
+				aeropuertoOrigen.add(value);
 			}
 		}
 
-		for (int i = 0; i < aeropuertoOrigen.size(); i++) {
-			rutasOrigen.addAll(aeropuertoOrigen.get(i).getRutasInternacionales());
+		for (Aeropuerto aeropuerto : aeropuertoOrigen) {
+			rutasOrigen.addAll(aeropuerto.getRutasInternacionales());
 		}
 
-		for (int i = 0; i < rutasOrigen.size(); i++) {
-			if (rutasOrigen.get(i).getDestino().getPais().equals(destino)) {
-					ArrayList<Aerolinea> aerolineas = rutasOrigen.get(i).getAerolineas();
-					for(int j = 0; j < aerolineas.size(); j++) {
-						if (aerolineas.get(j).getDisponible()) {
-							Vuelo informacion = new Vuelo(rutasOrigen.get(i).getOrigen().getNombre(),
-									rutasOrigen.get(i).getDestino().getNombre(), rutasOrigen.get(i).getDistancia(),
-									aerolineas.get(j).getDisponibles(), aerolineas.get(j).getNombre());
-								rutaDirecta.add(informacion);
-						}
+		for (Ruta ruta : rutasOrigen) {
+			if (ruta.getDestino().getPais().equals(destino)) {
+				ArrayList<Aerolinea> aerolineas = ruta.getAerolineas();
+				for (Aerolinea aerolinea : aerolineas) {
+					if (aerolinea.getDisponible()) {
+						Vuelo informacion = new Vuelo(ruta.getOrigen().getNombre(),
+								ruta.getDestino().getNombre(), ruta.getDistancia(),
+								aerolinea.getDisponibles(), aerolinea.getNombre());
+						rutaDirecta.add(informacion);
 					}
+				}
 			}
 		}
 
@@ -113,7 +115,7 @@ public class Sistema {
 		int posicionDestino = buscarAeropuerto(destino);
 
 		// creamos la ruta invertida
-		ArrayList <Aerolinea> aux = new ArrayList<Aerolinea>(ruta.getAerolineas());
+		ArrayList <Aerolinea> aux = new ArrayList<>(ruta.getAerolineas());
 		Ruta rutaInvertida = new Ruta(ruta.getDestino(), ruta.getOrigen(), ruta.getDistancia(), ruta.esInternacional());
 		rutaInvertida.addAerolineas(aux);
 		// guardamos los aeropuertos para no pisarlos
@@ -144,9 +146,9 @@ public class Sistema {
 
 	// buscar aeropuerto por nombre
 	public Aeropuerto devolverAeropuerto(String nombre) {
-		for (int i = 0; i < aeropuertos.size(); i++) {
-			if (nombre.equals(aeropuertos.get(i).getNombre())) {
-				return aeropuertos.get(i);
+		for (Aeropuerto aeropuerto : aeropuertos) {
+			if (nombre.equals(aeropuerto.getNombre())) {
+				return aeropuerto;
 			}
 		}
 		return null; // si no lo encuentro devuelvo null, no se si esto est� bien
@@ -154,7 +156,7 @@ public class Sistema {
 
 	/*
 	 * Añadir aeropuertos al sistema, se cambio a que reciba solamente el aeropuerto
-	 * y no todo los parametros
+	 * y no todos los parametros
 	 */
 	public void addAeropuerto(Aeropuerto aeropuerto) {
 		aeropuertos.add(aeropuerto);
@@ -162,9 +164,8 @@ public class Sistema {
 
 	// ¿Se deben devolver en un ArrayList? ¿Hay algun inconveniente?
 	public ArrayList<Aeropuerto> listarAeropuertos() {
-		ArrayList<Aeropuerto> listaAeropuertos = new ArrayList<Aeropuerto>(aeropuertos);
 
-		return listaAeropuertos;
+		return new ArrayList<>(aeropuertos);
 	}
 
 	/*
@@ -177,16 +178,16 @@ public class Sistema {
 	public ArrayList<Vuelo> buscarVueloDirecto(int origen, int destino, String aerolinea) {
 		// itero las rutas del aeropuerto origen
 		ArrayList<Ruta> aux = new ArrayList<>(aeropuertos.get(origen - 1).getRutas());
-		for (int i = 0; i < aux.size(); i++) {
+		for (Ruta ruta : aux) {
 			// pregunto si el destino de cada ruta es igual al destino solicitado
-			if (aux.get(i).getDestino().getNombre().equals(aeropuertos.get(destino - 1).getNombre())) {
-				ArrayList<Aerolinea> aerolineas = aux.get(i).getAerolineas();
-				for (int j = 0; j < aerolineas.size(); j++) {
-					if (aerolineas.get(j).getNombre().equals(aerolinea)) {
+			if (ruta.getDestino().getNombre().equals(aeropuertos.get(destino - 1).getNombre())) {
+				ArrayList<Aerolinea> aerolineas = ruta.getAerolineas();
+				for (Aerolinea value : aerolineas) {
+					if (value.getNombre().equals(aerolinea)) {
 						Vuelo vuelo = new Vuelo(aeropuertos.get(origen - 1).getNombre(),
-								aeropuertos.get(destino - 1).getNombre(), aux.get(i).getDistancia(),
-								aerolineas.get(j).getDisponibles(), aerolineas.get(j).getNombre());
-						ArrayList<Vuelo> retorno = new ArrayList();
+								aeropuertos.get(destino - 1).getNombre(), ruta.getDistancia(),
+								value.getDisponibles(), value.getNombre());
+						ArrayList<Vuelo> retorno = new ArrayList<>();
 						retorno.add(vuelo);
 						return retorno;
 					}
@@ -199,17 +200,17 @@ public class Sistema {
 
 	// devuevlvo todas las rutas iterando los aerpouertos.
 	// Esta funcion es para poder listar todas las reservas
-	public ArrayList<Ruta> getRutas() {
-		ArrayList<Ruta> aux = new ArrayList<Ruta>();
-		for (int i = 0; i < aeropuertos.size(); i++) {
-			aux.addAll(aeropuertos.get(i).getRutas());
+	private ArrayList<Ruta> getRutas() {
+		ArrayList<Ruta> aux = new ArrayList<>();
+		for (Aeropuerto aeropuerto : aeropuertos) {
+			aux.addAll(aeropuerto.getRutas());
 		}
 		return aux;
 	}
 
 	// Funcion para listar las reservas [Item 2 del TP]
 	public ArrayList<Reserva> getReservas() {
-		return new ArrayList<Reserva>(reservas);
+		return new ArrayList<>(reservas);
 	}
 
 	public void addReserva(Reserva reserva) {
@@ -219,12 +220,12 @@ public class Sistema {
 
 		reservas.add(reserva); // Agregamos la reserva al ArrayList de reservas del sistema
 
-		ArrayList<Ruta> aux = new ArrayList<Ruta>(getRutas());
-		for (int i = 0; i < aux.size(); i++) {
-			if ((aux.get(i).getOrigen().equals(aOrigen) && (aux.get(i).getDestino().equals(aDestino)))) {
-				for (int j = 0; j < aux.get(i).getAerolineas().size(); j++) {
-					if (aux.get(i).getAerolineas().get(j).getNombre().equals(reserva.getAerolinea())) {
-						aux.get(i).getAerolineas().get(j).setReservas(reserva);
+		ArrayList<Ruta> aux = new ArrayList<>(getRutas());
+		for (Ruta ruta : aux) {
+			if ((ruta.getOrigen().equals(aOrigen) && (ruta.getDestino().equals(aDestino)))) {
+				for (int j = 0; j < ruta.getAerolineas().size(); j++) {
+					if (ruta.getAerolineas().get(j).getNombre().equals(reserva.getAerolinea())) {
+						ruta.getAerolineas().get(j).setReservas(reserva);
 					}
 				}
 			}
@@ -232,71 +233,104 @@ public class Sistema {
 	}
 
 	public ArrayList<VueloConEscala> obtenerVuelosDisponibles(int origen, int destino, String aerolinea) {
-
 		vuelos.clear();
 		ArrayList<Ruta> rutasOrigen = aeropuertos.get(origen - 1).getRutas();
 		LinkedList<Ruta> caminoActual = new LinkedList<>();
-
-		for (int i = 0; i < aeropuertos.size(); i++) {
-			aeropuertos.get(i).setEstado(NO_VISITADO);
+		for (Aeropuerto aeropuerto : aeropuertos) {
+			aeropuerto.setEstado(NO_VISITADO);
 		}
-
-		for (int i = 0; i < rutasOrigen.size(); i++) {
-			if (rutasOrigen.get(i).getOrigen().getEstado() == NO_VISITADO) {
-				dfs_visit(rutasOrigen.get(i), aeropuertos.get(destino - 1), caminoActual,
+		for (Ruta ruta : rutasOrigen) {
+			if (ruta.getOrigen().getEstado() == NO_VISITADO) {
+				dfs_visit(ruta, aeropuertos.get(destino - 1), caminoActual,
 						aeropuertos.get(origen - 1).getNombre(), aerolinea);
 			}
 		}
-		
 		return vuelos;
 	}
 	private double seCumple (LinkedList<Ruta> camino, String aerolinea) {
 		double kmTotales = 0;
-		for ( int i = 0; i < camino.size(); i++) {
-			ArrayList<Aerolinea> aerolineas = camino.get(i).getAerolineas();
+		for (Ruta ruta : camino) {
+			ArrayList<Aerolinea> aerolineas = ruta.getAerolineas();
 			int contAerolineas = 0;
-			for (int j = 0; j < aerolineas.size(); j++) {
-				if(!aerolineas.get(j).getNombre().equals(aerolinea)) {
-					if (aerolineas.get(j).getDisponible()) {
+			for (Aerolinea value : aerolineas) {
+				if (!value.getNombre().equals(aerolinea)) {
+					if (value.getDisponible()) {
 						contAerolineas++;
 					}
 				}
 			}
 			if (contAerolineas > 0) {
-				kmTotales += camino.get(i).getDistancia();
-			}
-			else {
+				kmTotales += ruta.getDistancia();
+			} else {
 				return 0;
 			}
 		}
 		return kmTotales;
 	}
+	public Recorrido supervisarFuncionamiento(int origen) {
+		recorrido = new Recorrido();
+		for (Aeropuerto aeropuerto : aeropuertos) {
+			aeropuerto.setEstado(NO_VISITADO);
+		}
+		double km = 0.0 ;
+		System.out.println(recorrido.getKmTotales());
+		Aeropuerto or = aeropuertos.get(origen-1);
+		LinkedList<Aeropuerto> caminoActual = new LinkedList<>();
+		realizarRecorrido(or, caminoActual, or, km);
+		return recorrido;
+	}
+	private void realizarRecorrido(Aeropuerto origen, LinkedList<Aeropuerto> caminoActual,
+								   Aeropuerto principio, double km) {
+		origen.setEstado(VISITADO);
+		caminoActual.add(origen);
+		ArrayList<Ruta> rutas = origen.getRutas();
+		for (Ruta ruta : rutas) {
+			km += ruta.getDistancia();
+			if (ruta.getDestino().equals(principio)) {
+				if ((caminoActual.size() == aeropuertos.size())) {
+					if (km < recorrido.getKmTotales() || recorrido.getKmTotales() == 0.0)
+					caminoActual.add(principio);
+					LinkedList<Aeropuerto> caminoFinal = new LinkedList<>(caminoActual);
+					recorrido.setCamino(caminoFinal);
+					recorrido.setKmTotales(km);
+				}
+
+			} else {
+					if (ruta.getDestino().getEstado() == NO_VISITADO) {
+						realizarRecorrido(ruta.getDestino(), caminoActual, principio, km);
+					}
+				}
+			km -= ruta.getDistancia();
+			}
+		origen.setEstado(NO_VISITADO);
+		caminoActual.remove(origen);
+	}
+
 	private void dfs_visit(Ruta ruta, Aeropuerto destino, LinkedList<Ruta> caminoActual, String origen, String aerolinea) {
 		// Marco como visitado el aeropuerto de origen
 		ruta.getOrigen().setEstado(VISITADO);
-		
 		if (ruta.getDestino().equals(destino)) {
 			// Agregamos la ruta final al camino actual, que es el destino que buscamos.
 			caminoActual.addLast(ruta);
 			
 			double kmTotales = seCumple(caminoActual, aerolinea); 
 			if(kmTotales > 0) {
-				LinkedList<Ruta> aux = new LinkedList<Ruta>(caminoActual);
+				LinkedList<Ruta> aux = new LinkedList<>(caminoActual);
 				VueloConEscala auxVuelo = new VueloConEscala(origen, destino.getNombre(), aux.size(), kmTotales);
 				vuelos.add(auxVuelo);
 			}
 			// Agregamos el camino actual que encontró a la estructura general.
 		} else {
-			// le pido los adyacentes al destino
+			/* le pido los adyacentes al destino */
 			ArrayList<Ruta> rutas = ruta.getDestino().getRutas();
 			caminoActual.addLast(ruta);
 			// iteros sobre ellos
-			for (int i = 0; i < rutas.size(); i++) {
+			for (Ruta value : rutas) {
 				// pregunto si no lo visité para evitar ciclos
-				if (rutas.get(i).getDestino().getEstado() == NO_VISITADO) {
+				if (value.getDestino().getEstado() == NO_VISITADO) {
 					// marco la primera ruta adyacente
 					// exploro
-					dfs_visit(rutas.get(i), destino, caminoActual, origen, aerolinea);
+					dfs_visit(value, destino, caminoActual, origen, aerolinea);
 					// desmarco la primera ruta adyacente
 				}
 			}
@@ -305,5 +339,4 @@ public class Sistema {
 		ruta.getOrigen().setEstado(NO_VISITADO);
 		caminoActual.removeLast();
 	}
-
 }

@@ -7,7 +7,9 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 //El main no debería ir en este package, luego podría sacarse
@@ -126,6 +128,13 @@ public class Main {
 				System.out.println("No hay vuelos disponibles entre los paises especificados.");
 			}
 			break;
+		case 6:
+			salida.clear();
+			listarAeropuertos(sistemaAereo);
+			int principio = pedirNumero();
+			Recorrido recorrido = sistemaAereo.supervisarFuncionamiento(principio);
+			System.out.println(recorrido);
+			break;
 		default:
 			System.out.println("La opción ingresada es incorrecta.");
 			repetir = false;
@@ -167,6 +176,7 @@ public class Main {
 
 				// Esto separa las aerolineas que vienen individualmente
 				String[] aerolineas = rutas[4].split(",");
+
 				for (int i = 0; i < aerolineas.length; i++) {
 					// cambiar esto para splitear por guion
 					aerolineas[i] = aerolineas[i].replaceAll("\\}", "");
@@ -174,12 +184,12 @@ public class Main {
 					String[] aeroNombreCant = aerolineas[i].split("-");
 					aux.add(new Aerolinea(aeroNombreCant[0], Integer.parseInt(aeroNombreCant[1])));
 				}
+
 				if (rutas[3].equals("1")) {
 					rutas[3] = "false";
 				} else {
 					rutas[3] = "true";
 				}
-
 				/*
 				 * busco los aeropuertos por el nombre, podria ser busarAeropuertoPorNombre(mas
 				 * representativo)
@@ -275,6 +285,7 @@ public class Main {
 		System.out.println("3. Servicio 1: Verificar vuelos directos");
 		System.out.println("4. Servicio 2: Obtener vuelos sin aerolinea");
 		System.out.println("5. Servicio 3: Vuelos disponibles");
+		System.out.println("6. Supervisar funcionamiento de los aeropuertos");
 		System.out.println("0. Salir del sistema");
 	}
 
