@@ -267,6 +267,37 @@ public class Sistema {
 		}
 		return kmTotales;
 	}
+	private Ruta seleccion (Aeropuerto origen){
+		double km = Double.POSITIVE_INFINITY;
+		Ruta retorno = null;
+		for (Ruta r : origen.getRutas()){
+			if((r.getDistancia()<km)&&(r.getDestino().getEstado() == NO_VISITADO)){
+				retorno = r;
+			}
+		}
+		return retorno;
+	}
+	public Recorrido supervizarGreedy(int origen){
+		recorrido = new Recorrido();
+		Aeropuerto or = aeropuertos.get(origen-1);
+		double kmTotales = 0;
+		for (Aeropuerto a: aeropuertos){
+			a.setEstado(NO_VISITADO);
+		}
+		LinkedList<Aeropuerto> caminoActual = new LinkedList<>();
+		caminoActual.add(or);
+		while (caminoActual.size()<aeropuertos.size()){
+			Ruta r = seleccion(or);
+			System.out.println(r);
+			kmTotales += r.getDistancia();
+			caminoActual.add(r.getDestino());
+			or = r.getDestino();
+			or.setEstado(VISITADO);
+		}
+		recorrido.setKmTotales(kmTotales);
+		recorrido.setCamino(new LinkedList<Aeropuerto>(caminoActual));
+		return recorrido;
+	}
 	public Recorrido supervisarFuncionamiento(int origen) {
 		recorrido = new Recorrido();
 		for (Aeropuerto aeropuerto : aeropuertos) {

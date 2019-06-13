@@ -1,0 +1,10 @@
+John F. Kennedy;Ministro Pistarini;8535.74;0;{United Airlines-96,Delta-152,LATAM-210,Aerolineas-276,Avianca-250}
+John F. Kennedy;Pucon;8516;0;{United Airlines-96,Delta-152,LATAM-210,Aerolineas-276}
+John F. Kennedy;Comodoro Benitez;5774;0;{United Airlines-126}
+John F. Kennedy;Jorge Newbery;8774;0;{United Airlines-126}
+Ministro Pistarini;Pucon;2054.86;1;{Aerolineas-120}
+Ministro Pistarini;Comodoro Benitez;10492.25;0;{Aerolineas-120,LATAM-200}
+Ministro Pistarini;Jorge Newbery;1291.71;0;{United Airlines-120}
+Pucon;Comodoro Benitez;1232.04;0;{United Airlines-100}
+Pucon;Jorge Newbery;5232.04;0;{United Airlines-100}
+Comodoro Benitez;Jorge Newbery;2127.70;0;{United Airlines-120,Delta-80}

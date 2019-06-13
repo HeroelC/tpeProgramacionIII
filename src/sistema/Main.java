@@ -135,6 +135,13 @@ public class Main {
 			Recorrido recorrido = sistemaAereo.supervisarFuncionamiento(principio);
 			System.out.println(recorrido);
 			break;
+			case 7:
+				salida.clear();
+				listarAeropuertos(sistemaAereo);
+				int comienzo = pedirNumero();
+				Recorrido recorrido1 = sistemaAereo.supervizarGreedy(comienzo);
+				System.out.println(recorrido1);
+				break;
 		default:
 			System.out.println("La opción ingresada es incorrecta.");
 			repetir = false;
@@ -147,8 +154,9 @@ public class Main {
 	public static void leerArchivos(Sistema sistemaAereo) {
 
 		// CAMBIAR RUTAS SEGUN LA PC
-		String csvAeropuertos = "src/sistema/dataset/Aeropuertos.csv";
-		String csvRutas = "src/sistema/dataset/Rutas.csv";
+		String csvAeropuertos = "src/sistema/dataset/Aeropuertos_greedy.csv";
+		//CAMBIAR EL PATH CUANDO SE QUIERE USAR GREEDY O BACKTRACKING
+		String csvRutas = "src/sistema/dataset/Rutas_greedy.csv";
 		String csvReservas = "src/sistema/dataset/Reservas.csv";
 		String line = "";
 		String cvsSplitBy = ";";
@@ -281,11 +289,12 @@ public class Main {
 
 	public static void listaOpcionesDeMenu() {
 		System.out.println("1. Listar todos los aeropuertos");
-		System.out.println("2. Listar todas las reservas"); // cambiar a reservas realizadas
+		System.out.println("2. Listar todas las reservas realizadas");
 		System.out.println("3. Servicio 1: Verificar vuelos directos");
 		System.out.println("4. Servicio 2: Obtener vuelos sin aerolinea");
 		System.out.println("5. Servicio 3: Vuelos disponibles");
-		System.out.println("6. Supervisar funcionamiento de los aeropuertos");
+		System.out.println("6. Supervisar funcionamiento de los aeropuertos (BackTracking)");
+		System.out.println("7. Supervisar funcionamiento de los aeropuertos (Greedy)");
 		System.out.println("0. Salir del sistema");
 	}
 
