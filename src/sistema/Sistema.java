@@ -273,7 +273,6 @@ public class Sistema {
 			aeropuerto.setEstado(NO_VISITADO);
 		}
 		double km = 0.0 ;
-		System.out.println(recorrido.getKmTotales());
 		Aeropuerto or = aeropuertos.get(origen-1);
 		LinkedList<Aeropuerto> caminoActual = new LinkedList<>();
 		realizarRecorrido(or, caminoActual, or, km);
@@ -283,18 +282,15 @@ public class Sistema {
 								   Aeropuerto principio, double km) {
 		origen.setEstado(VISITADO);
 		caminoActual.add(origen);
-		ArrayList<Ruta> rutas = origen.getRutas();
-		for (Ruta ruta : rutas) {
+		for (Ruta ruta : origen.getRutas()) {
 			km += ruta.getDistancia();
 			if (ruta.getDestino().equals(principio)) {
-				if ((caminoActual.size() == aeropuertos.size())) {
-					if (km < recorrido.getKmTotales() || recorrido.getKmTotales() == 0.0)
-					caminoActual.add(principio);
-					LinkedList<Aeropuerto> caminoFinal = new LinkedList<>(caminoActual);
-					recorrido.setCamino(caminoFinal);
-					recorrido.setKmTotales(km);
+				if ((caminoActual.size() == this.aeropuertos.size())) {
+					if ((km < recorrido.getKmTotales() || ( recorrido.getKmTotales() == 0.0))) {
+						recorrido.setKmTotales(km);
+						recorrido.setCamino(new LinkedList<>(caminoActual));
+					}
 				}
-
 			} else {
 					if (ruta.getDestino().getEstado() == NO_VISITADO) {
 						realizarRecorrido(ruta.getDestino(), caminoActual, principio, km);

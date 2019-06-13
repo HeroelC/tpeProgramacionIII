@@ -159,7 +159,7 @@ public class Main {
 
 				String[] aeropuertos = line.split(cvsSplitBy);
 
-				// Cambio de recibir todo los parametros a solo recibir el aeropuerto construido
+				// Cambio de recibir todos los parametros a solo recibir el aeropuerto construido
 				Aeropuerto aeropuerto = new Aeropuerto(aeropuertos[0], aeropuertos[1], aeropuertos[2]);
 				sistemaAereo.addAeropuerto(aeropuerto);
 			}
